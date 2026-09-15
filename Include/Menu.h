@@ -1,0 +1,9 @@
+//
+// Created by avotra on 15/09/2026.
+//
+
+#ifndef GESTIONNAIRE_DE_TACHES_INTELLIGENT_MENU_H
+#define GESTIONNAIRE_DE_TACHES_INTELLIGENT_MENU_H
+void menu ();
+int choixMenu();
+#endif //GESTIONNAIRE_DE_TACHES_INTELLIGENT_MENU_H
