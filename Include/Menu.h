@@ -6,4 +6,5 @@
 #define GESTIONNAIRE_DE_TACHES_INTELLIGENT_MENU_H
 void menu ();
 int choixMenu();
+void saisirLigne(char *buffer, int taille);
 #endif //GESTIONNAIRE_DE_TACHES_INTELLIGENT_MENU_H

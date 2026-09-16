@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Menu.h"
-
+#include <string.h>
 #include <stdio.h>
 
 void menu () {
@@ -26,4 +26,8 @@ int choixMenu() {
         scanf("%d" , &choix);
     }while (choix < 1 || choix > 8);
     return choix;
+}
+void saisirLigne(char *buffer, int taille) {
+    fgets(buffer, taille, stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
 }

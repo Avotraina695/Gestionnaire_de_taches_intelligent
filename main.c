@@ -1,13 +1,9 @@
 #include <stdio.h>
-#include <string.h>
+
 #include "Include/Tache.h"
 #include "Include/Menu.h"
 
 
-void saisirLigne(char *buffer, int taille) {
-    fgets(buffer, taille, stdin);
-    buffer[strcspn(buffer, "\n")] = '\0';
-}
 
 int main() {
     TasTache tas;
@@ -76,8 +72,9 @@ int main() {
                 break;
             }
             case 6: { // Modifier une tache
-                int id, priorite;
+                int id, priorite , choixStatus;
                 char titre[TAILLE_TITRE], description[TAILLE_DESCRIPTION];
+                Status nouveauStatus;
 
                 printf("ID de la tache a modifier : ");
                 scanf("%d", &id);
@@ -92,8 +89,21 @@ int main() {
                 printf("Nouvelle priorite (1-5) : ");
                 scanf("%d", &priorite);
                 getchar();
+                printf("Nouveau status : ");
+                printf("0 - A faire\n");
+                printf("1 - En cours\n");
+                printf("2 - Terminee\n");
+                printf("Votre choix : ");
+                do {
+                    scanf("%d", &choixStatus);
+                }while (choixStatus < 1 || choixStatus > 3);
+                switch (choixStatus) {
+                    case 1 : nouveauStatus = A_FAIRE; break;
+                    case 2 : nouveauStatus =  EN_COURS; break;
+                    case 3 : nouveauStatus =  TERMINEE; break;
+                }
 
-                modifierTache(&tas, id, titre, description, priorite, A_FAIRE);
+                modifierTache(&tas, id, titre, description, priorite, nouveauStatus);
                 break;
             }
             case 7: // Supprimer une tache

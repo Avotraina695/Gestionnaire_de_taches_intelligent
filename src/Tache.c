@@ -151,6 +151,5 @@ int modifierTache(TasTache *tas, int id, char const nouveauTitre[], char const n
     strncpy(tas->tab[indice].description, nouvelleDescription, TAILLE_DESCRIPTION - 1);
     tas->tab[indice].description[TAILLE_DESCRIPTION - 1] = '\0';
     tas->tab[indice].status = nouveauStatus;
-
     return 1;
 }
