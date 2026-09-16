@@ -7,4 +7,5 @@ add_executable(Gestionnaire_de_taches_intelligent main.c
         Include/Tache.h
         src/Tache.c
         Include/Menu.h
-        src/Menu.c)
+        src/Menu.c
+)
