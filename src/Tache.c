@@ -8,6 +8,7 @@
 
 void initialiserTasTaches(TasTache *tas) {
     tas -> taille = 0;
+    tas -> prochaineOrdre = 0;
 }
 
 void echangerTache(Tache *a , Tache *b) {
@@ -20,7 +21,7 @@ int estPlusPriotitaire(Tache a , Tache b) {
     if (a.priorite > b.priorite) {
         return 1;
     }
-    if (a.priorite == b.priorite && a.id < b.id) {
+    if (a.priorite == b.priorite && a.ordreArrivee < b.ordreArrivee) {
         return 1;
     }
     return 0;
@@ -43,10 +44,10 @@ int ajouterTache(TasTache * tas , int id , char const titre[] , char const descr
         printf("Erreur : la priorite doit etre comprise entre 1 et 5.\n");
         return 0;
     }
-    if (rechercherTaches(tas , id) == 1) {
-        printf("L'id doit etre unique a chaque tache.\n");
-        return 0;
+    while (rechercherTaches(tas, id) != -1) {
+        id++;
     }
+
     int i = tas -> taille;
     tas -> tab[i].id = id;
     tas -> tab[i].priorite = priorite;
@@ -54,6 +55,7 @@ int ajouterTache(TasTache * tas , int id , char const titre[] , char const descr
     strncpy( tas->tab[i].description, description, TAILLE_DESCRIPTION - 1 ); tas->tab[i].description[TAILLE_DESCRIPTION - 1] = '\0';
     tas -> tab[i].status = status;
     tas ->tab[i].ordreArrivee = tas -> prochaineOrdre;
+    tas -> prochaineOrdre++;
     tas -> taille++;
     entasserHaut(tas , i );
     return 1;
@@ -96,6 +98,7 @@ void afficherTache(Tache tache) {
     printf("Titre : %s\n", tache.titre);
     printf("Description : %s\n", tache.description);
     printf("Priorite : %d/5\n", tache.priorite);
+    printf("Ordre d'arrivee :%d\n", tache.ordreArrivee);
     printf("Statut : ");
     switch (tache.status) {
         case A_FAIRE :
@@ -113,7 +116,7 @@ void afficherTache(Tache tache) {
     }
     printf("--------------------------------------------\n");
 }
-void afficherToutesLesTaches(TasTache *tas) {
+void afficherToutesLesTaches(const TasTache *tas) {
     printf("\n===========Taches==========\n");
     if (tas -> taille <= 0) {
         printf("Aucune tache disponible.\n");
@@ -125,9 +128,8 @@ void afficherToutesLesTaches(TasTache *tas) {
     }
 }
 
-int rechercherTaches(TasTache *tas, int id) {
+int rechercherTaches(const TasTache *tas, int id) {
     if (tas->taille <= 0) {
-        printf("Aucune tache disponible.\n");
         return -1;
     }
     for (int i = 0; i < tas->taille; i++) {
@@ -151,5 +153,21 @@ int modifierTache(TasTache *tas, int id, char const nouveauTitre[], char const n
     strncpy(tas->tab[indice].description, nouvelleDescription, TAILLE_DESCRIPTION - 1);
     tas->tab[indice].description[TAILLE_DESCRIPTION - 1] = '\0';
     tas->tab[indice].status = nouveauStatus;
+    return 1;
+}
+
+int supprimerTache(TasTache * tas , int id) {
+    int indice = rechercherTaches(tas , id);
+    if (indice == -1) {
+        printf("Tache introuvable.\n");
+        return 0;
+    }
+    tas->tab[indice] = tas -> tab[tas->taille-1];
+    tas -> taille--;
+
+    if (tas->taille > 0 && indice < tas->taille) {
+        entasserHaut(tas , indice);
+        entasserBas(tas , indice);
+    }
     return 1;
 }

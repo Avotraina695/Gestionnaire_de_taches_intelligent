@@ -22,9 +22,10 @@ void menu () {
 }
 int choixMenu() {
     int choix;
-    do {
-        scanf("%d" , &choix);
-    }while (choix < 1 || choix > 8);
+    while (scanf("%d", &choix) != 1) {
+        printf("Entree invalide, veuillez saisir un nombre : ");
+        while (getchar() != '\n');
+    }
     return choix;
 }
 void saisirLigne(char *buffer, int taille) {

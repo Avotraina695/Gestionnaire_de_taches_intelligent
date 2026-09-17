@@ -37,7 +37,8 @@ int ajouterTache(TasTache * tas , int id , char const titre[] , char const descr
 Tache extraireMax (TasTache *tas);
 void afficherTache(Tache tache);
 int modifierTache(TasTache *tas, int id, char const nouveauTitre[], char const nouvelleDescription[], int nouvellePriorite, Status nouveauStatus) ;
-int rechercherTaches(TasTache *tas , int id);
-void afficherToutesLesTaches(TasTache *tas);
+int rechercherTaches(const TasTache *tas , int id);
+void afficherToutesLesTaches(const TasTache *tas);
+int supprimerTache(TasTache * tas , int id);
 
 #endif //GESTIONNAIRE_DE_TACHES_INTELLIGENT_TACHE_H

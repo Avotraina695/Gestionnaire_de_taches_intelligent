@@ -19,21 +19,23 @@ int main() {
             case 1: {
                 int id, priorite;
                 char titre[TAILLE_TITRE], description[TAILLE_DESCRIPTION];
-
                 printf("ID de la tache : ");
-                scanf("%d", &id);
+                while (scanf("%d", &id) != 1) {
+                    printf("Entree invalide, veuillez saisir un nombre : ");
+                    while (getchar() != '\n');
+                }
                 getchar();
-
                 printf("Titre : ");
                 saisirLigne(titre, TAILLE_TITRE);
 
                 printf("Description : ");
                 saisirLigne(description, TAILLE_DESCRIPTION);
 
-                printf("Priorite (1-5) : ");
-                scanf("%d", &priorite);
+                do {
+                    printf("Priorite (1-5) : ");
+                    scanf("%d", &priorite);
+                }while (priorite < 1 || priorite > 5);
                 getchar();
-
                 ajouterTache(&tas, id, titre, description, priorite, A_FAIRE);
                 break;
             }
@@ -60,7 +62,10 @@ int main() {
             case 5: { // Rechercher une tache
                 int id;
                 printf("ID a rechercher : ");
-                scanf("%d", &id);
+                while (scanf("%d", &id) != 1) {
+                    printf("Entree invalide, veuillez saisir un nombre : ");
+                    while (getchar() != '\n');
+                }
                 getchar();
 
                 int indice = rechercherTaches(&tas, id);
@@ -77,9 +82,11 @@ int main() {
                 Status nouveauStatus;
 
                 printf("ID de la tache a modifier : ");
-                scanf("%d", &id);
+                while (scanf("%d", &id) != 1) {
+                    printf("Entree invalide, veuillez saisir un nombre : ");
+                    while (getchar() != '\n');
+                }
                 getchar();
-
                 printf("Nouveau titre : ");
                 saisirLigne(titre, TAILLE_TITRE);
 
@@ -87,9 +94,14 @@ int main() {
                 saisirLigne(description, TAILLE_DESCRIPTION);
 
                 printf("Nouvelle priorite (1-5) : ");
-                scanf("%d", &priorite);
+                do {
+                    while (scanf("%d", &priorite) != 1) {
+                        printf("Entree invalide, veuillez saisir un nombre : ");
+                        while (getchar() != '\n'); // vider le buffer
+                    }
+                }while (priorite < 1 || priorite > 5);
                 getchar();
-                printf("Nouveau status : ");
+                printf("Nouveau status :\n ");
                 printf("0 - A faire\n");
                 printf("1 - En cours\n");
                 printf("2 - Terminee\n");
@@ -107,12 +119,23 @@ int main() {
                 break;
             }
             case 7: // Supprimer une tache
-                printf("Fonction pas encore implementee.\n");
+                int id;
+                printf("ID a supprimer :");
+                while (scanf("%d", &id) != 1) {
+                    printf("Entree invalide, veuillez saisir un nombre : ");
+                    while (getchar() != '\n');
+                }
+                getchar();
+                if (supprimerTache(&tas,id)) {
+                    printf("Tache supprimer avec succes.\n");
+                }
                 break;
 
             case 8:
                 printf("Au revoir !\n");
                 break;
+            default:
+                printf("Erreur.\n");
         }
 
     } while (choix != 8);
