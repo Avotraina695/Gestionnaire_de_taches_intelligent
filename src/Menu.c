@@ -7,7 +7,9 @@
 #include <stdio.h>
 
 void menu () {
+    printf("==========================================\n");
     printf("===== GESTIONNAIRE DE TACHES =====\n");
+    printf("==========================================\n");
 
     printf("1. Ajouter une tâche\n");
     printf("2. Afficher toutes les taches\n");
@@ -17,7 +19,7 @@ void menu () {
     printf("6. Modifier une tache\n");
     printf("7. Supprimer une tache\n");
     printf("8. Quitter\n");
-
+    printf("==========================================\n");
     printf("Votre choix :\n");
 }
 int choixMenu() {

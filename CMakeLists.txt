@@ -8,4 +8,6 @@ add_executable(Gestionnaire_de_taches_intelligent main.c
         src/Tache.c
         Include/Menu.h
         src/Menu.c
+        Include/Stockage.h
+        src/Stockage.c
 )

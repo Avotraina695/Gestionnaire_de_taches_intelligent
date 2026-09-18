@@ -93,7 +93,7 @@ Tache extraireMax (TasTache * tas) {
 }
 
 void afficherTache(Tache tache) {
-    printf("----------------------------------------\n");
+    printf("---------------------------------------------------\n");
     printf("ID : %d\n", tache.id);
     printf("Titre : %s\n", tache.titre);
     printf("Description : %s\n", tache.description);
@@ -117,7 +117,7 @@ void afficherTache(Tache tache) {
     printf("--------------------------------------------\n");
 }
 void afficherToutesLesTaches(const TasTache *tas) {
-    printf("\n===========Taches==========\n");
+    printf("\n=======================Taches=========================\n");
     if (tas -> taille <= 0) {
         printf("Aucune tache disponible.\n");
         return;
