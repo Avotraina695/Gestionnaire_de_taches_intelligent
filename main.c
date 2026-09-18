@@ -1,14 +1,14 @@
 #include <stdio.h>
-
+#define  NOM_FICHIER "taches.txt"
 #include "Include/Tache.h"
 #include "Include/Menu.h"
-
+#include "Include/Stockage.h"
 
 
 int main() {
     TasTache tas;
     initialiserTasTaches(&tas);
-
+    chargesTaches(&tas , NOM_FICHIER);
     int choix;
     do {
         menu();
@@ -132,6 +132,7 @@ int main() {
                 break;
 
             case 8:
+                sauvegarderTaches(&tas  , NOM_FICHIER);
                 printf("Au revoir !\n");
                 break;
             default:
