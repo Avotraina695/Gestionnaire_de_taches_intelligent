@@ -17,7 +17,7 @@ int main() {
 
         switch (choix) {
             case 1: {
-                int id, priorite;
+                int id, priorite , jour;
                 char titre[TAILLE_TITRE], description[TAILLE_DESCRIPTION];
                 printf("ID de la tache : ");
                 while (scanf("%d", &id) != 1) {
@@ -36,7 +36,13 @@ int main() {
                     scanf("%d", &priorite);
                 }while (priorite < 1 || priorite > 5);
                 getchar();
-                ajouterTache(&tas, id, titre, description, priorite, A_FAIRE);
+                printf("Deadline dans combien de jours : ");
+                while (scanf("%d", &jour) != 1) {
+                    printf("Entree invalide, veuillez saisir un nombre : ");
+                    while (getchar() != '\n');
+                }
+                time_t dateLimite = time(NULL) + (jour * 86400);
+                ajouterTache(&tas, id, titre, description, priorite, A_FAIRE , dateLimite);
                 break;
             }
             case 2: // Afficher toutes les taches
@@ -110,9 +116,11 @@ int main() {
                     scanf("%d", &choixStatus);
                 }while (choixStatus < 1 || choixStatus > 3);
                 switch (choixStatus) {
-                    case 1 : nouveauStatus = A_FAIRE; break;
-                    case 2 : nouveauStatus =  EN_COURS; break;
-                    case 3 : nouveauStatus =  TERMINEE; break;
+                    case 0 : nouveauStatus = A_FAIRE; break;
+                    case 1 : nouveauStatus =  EN_COURS; break;
+                    case 2 : nouveauStatus =  TERMINEE; break;
+                    default:
+                        nouveauStatus = A_FAIRE;
                 }
 
                 modifierTache(&tas, id, titre, description, priorite, nouveauStatus);

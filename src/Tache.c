@@ -17,11 +17,17 @@ void echangerTache(Tache *a , Tache *b) {
     *b = temp;
 }
 
+double calculerScores(Tache tache) {
+    double urgence = 100.0 / (double) (tache.dateCreation -1);
+    double anciennette = difftime(time(NULL) , tache.dateCreation) / 36000.0 ;
+    return  (tache.priorite * 10) + (urgence * 2 ) + (anciennette * 0.5);
+}
+
 int estPlusPriotitaire(Tache a , Tache b) {
-    if (a.priorite > b.priorite) {
+    if (calculerScores(a) > calculerScores(b)) {
         return 1;
     }
-    if (a.priorite == b.priorite && a.ordreArrivee < b.ordreArrivee) {
+    if (calculerScores(a) == calculerScores(b) && a.ordreArrivee < b.ordreArrivee) {
         return 1;
     }
     return 0;
@@ -35,7 +41,7 @@ void entasserHaut(TasTache * tas , int i) {
         entasserHaut(tas , pere);
     }
 }
-int ajouterTache(TasTache * tas , int id , char const titre[] , char const description[], int priorite , Status status) {
+int ajouterTache(TasTache * tas , int id , char const titre[] , char const description[], int priorite , Status status ,  time_t dateLimite) {
     if (tas -> taille >= MAX) {
         printf("Ajout de tache impossible : le tas est plein.\n");
         return 0;
@@ -56,6 +62,8 @@ int ajouterTache(TasTache * tas , int id , char const titre[] , char const descr
     tas -> tab[i].status = status;
     tas ->tab[i].ordreArrivee = tas -> prochaineOrdre;
     tas -> prochaineOrdre++;
+    tas -> tab[i].dateCreation  = time(NULL);
+    tas -> tab[i].dateLimite = dateLimite;
     tas -> taille++;
     entasserHaut(tas , i );
     return 1;
@@ -95,10 +103,12 @@ Tache extraireMax (TasTache * tas) {
 void afficherTache(Tache tache) {
     printf("---------------------------------------------------\n");
     printf("ID : %d\n", tache.id);
+
     printf("Titre : %s\n", tache.titre);
     printf("Description : %s\n", tache.description);
     printf("Priorite : %d/5\n", tache.priorite);
     printf("Ordre d'arrivee :%d\n", tache.ordreArrivee);
+    printf("Date de creation : %s", ctime(&tache.dateCreation));
     printf("Statut : ");
     switch (tache.status) {
         case A_FAIRE :

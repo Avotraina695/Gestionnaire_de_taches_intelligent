@@ -28,10 +28,11 @@ void chargesTaches(TasTache * tas , char const nomFichier[]) {
     }
     int id, priorite, status, ordreArrivee;
     char titre[TAILLE_TITRE], description[TAILLE_DESCRIPTION];
+    time_t dateLimite;
 
-    while (fscanf(fichier, "%d|%[^|]|%[^|]|%d|%d|%d\n",
+    while (fscanf(fichier, "%d|%[^|]|%[^|]|%d|%d|%d|%s\n",
                   &id, titre, description, &priorite, &status, &ordreArrivee) == 6) {
-        ajouterTache(tas, id, titre, description, priorite, (Status)status);
+        ajouterTache(tas, id, titre, description, priorite, (Status)status, dateLimite);
                   }
     fclose(fichier);
     printf("Taches chargees depuis %s\n" , nomFichier);
