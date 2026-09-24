@@ -42,7 +42,7 @@ int main() {
                     while (getchar() != '\n');
                 }
                 time_t dateLimite = time(NULL) + (jour * 86400);
-                ajouterTache(&tas, id, titre, description, priorite, A_FAIRE , dateLimite);
+                ajouterTache(&tas, id, titre, description, priorite, A_FAIRE, time(NULL), dateLimite);
                 break;
             }
             case 2: // Afficher toutes les taches
@@ -113,8 +113,12 @@ int main() {
                 printf("2 - Terminee\n");
                 printf("Votre choix : ");
                 do {
-                    scanf("%d", &choixStatus);
-                }while (choixStatus < 1 || choixStatus > 3);
+                    while (scanf("%d", &choixStatus) != 1) {
+                        printf("Entree invalide, veuillez saisir un nombre : ");
+                        while (getchar() != '\n');
+                    }
+                }while (choixStatus < 0 || choixStatus > 2);
+                getchar();
                 switch (choixStatus) {
                     case 0 : nouveauStatus = A_FAIRE; break;
                     case 1 : nouveauStatus =  EN_COURS; break;

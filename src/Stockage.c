@@ -5,35 +5,38 @@
 
 #include <stdio.h>
 
-void sauvegarderTaches(const TasTache * tas , char const nomFichier[]) {
+void sauvegarderTaches(const TasTache *tas, char const nomFichier[]) {
     FILE *fichier = fopen(nomFichier, "w");
     if (fichier == NULL) {
         printf("Erreur : impossible d'ouvrir le fichier !\n");
         return;
     }
-    for (int i =  0 ; i < tas-> taille ; i++) {
+    for (int i = 0; i < tas->taille; i++) {
         Tache temp = tas->tab[i];
-        fprintf(fichier, "%d|%s|%s|%d|%d|%d\n",
-                temp.id, temp.titre, temp.description, temp.priorite, temp.status, temp.ordreArrivee);
+        fprintf(fichier, "%d|%s|%s|%d|%d|%d|%ld|%ld\n",
+                temp.id, temp.titre, temp.description, temp.priorite, temp.status,
+                temp.ordreArrivee, (long) temp.dateCreation, (long) temp.dateLimite);
     }
     fclose(fichier);
-    printf("Taches sauvegardees dans %s\n" , nomFichier);
+    printf("Taches sauvegardees dans %s\n", nomFichier);
 }
 
-void chargesTaches(TasTache * tas , char const nomFichier[]) {
-    FILE * fichier = fopen(nomFichier , "r");
+void chargesTaches(TasTache *tas, char const nomFichier[]) {
+    FILE *fichier = fopen(nomFichier, "r");
     if (fichier == NULL) {
         printf("Aucun fichier.\n");
         return;
     }
     int id, priorite, status, ordreArrivee;
     char titre[TAILLE_TITRE], description[TAILLE_DESCRIPTION];
-    time_t dateLimite;
+    long dateCreationBrute, dateLimiteBrute;
 
-    while (fscanf(fichier, "%d|%[^|]|%[^|]|%d|%d|%d|%s\n",
-                  &id, titre, description, &priorite, &status, &ordreArrivee) == 6) {
-        ajouterTache(tas, id, titre, description, priorite, (Status)status, dateLimite);
+    while (fscanf(fichier, "%d|%[^|]|%[^|]|%d|%d|%d|%ld|%ld\n",
+                  &id, titre, description, &priorite, &status, &ordreArrivee,
+                  &dateCreationBrute, &dateLimiteBrute) == 8) {
+        ajouterTache(tas, id, titre, description, priorite, (Status) status,
+                     (time_t) dateCreationBrute, (time_t) dateLimiteBrute);
                   }
     fclose(fichier);
-    printf("Taches chargees depuis %s\n" , nomFichier);
+    printf("Taches chargees depuis %s\n", nomFichier);
 }
