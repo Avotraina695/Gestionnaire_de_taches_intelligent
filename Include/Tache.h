@@ -36,7 +36,8 @@ void echangerTache(Tache *a , Tache *b);
 int estPlusPriotitaire(Tache a , Tache b);
 void entasserHaut(TasTache * tas , int i);
 void entasserBas(TasTache *tas , int i);
-int ajouterTache(TasTache * tas , int id , char const titre[] , char const description[] , int priorite , Status status ,  time_t dateLimite);
+int ajouterTache(TasTache *tas, int id, char const titre[], char const description[],
+                  int priorite, Status status, time_t dateCreation, time_t dateLimite);
 Tache extraireMax (TasTache *tas);
 void afficherTache(Tache tache);
 int modifierTache(TasTache *tas, int id, char const nouveauTitre[], char const nouvelleDescription[], int nouvellePriorite, Status nouveauStatus ) ;

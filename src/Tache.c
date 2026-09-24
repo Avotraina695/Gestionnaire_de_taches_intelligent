@@ -18,9 +18,12 @@ void echangerTache(Tache *a , Tache *b) {
 }
 
 double calculerScores(Tache tache) {
-    double urgence = 100.0 / (double) (tache.dateCreation -1);
-    double anciennette = difftime(time(NULL) , tache.dateCreation) / 36000.0 ;
-    return  (tache.priorite * 10) + (urgence * 2 ) + (anciennette * 0.5);
+    double secondesRestantes = difftime(tache.dateLimite, time(NULL));
+    double joursRestants = secondesRestantes / 86400.0;
+    double urgence = 100.0 / (joursRestants + 1);
+
+    double anciennette = difftime(time(NULL), tache.dateCreation) / 36000.0;
+    return (tache.priorite * 10) + (urgence * 2) + (anciennette * 0.5);
 }
 
 int estPlusPriotitaire(Tache a , Tache b) {
@@ -41,8 +44,9 @@ void entasserHaut(TasTache * tas , int i) {
         entasserHaut(tas , pere);
     }
 }
-int ajouterTache(TasTache * tas , int id , char const titre[] , char const description[], int priorite , Status status ,  time_t dateLimite) {
-    if (tas -> taille >= MAX) {
+int ajouterTache(TasTache *tas, int id, char const titre[], char const description[],
+                  int priorite, Status status, time_t dateCreation, time_t dateLimite) {
+    if (tas->taille >= MAX) {
         printf("Ajout de tache impossible : le tas est plein.\n");
         return 0;
     }
@@ -54,18 +58,18 @@ int ajouterTache(TasTache * tas , int id , char const titre[] , char const descr
         id++;
     }
 
-    int i = tas -> taille;
-    tas -> tab[i].id = id;
-    tas -> tab[i].priorite = priorite;
-    strncpy( tas->tab[i].titre, titre, TAILLE_TITRE - 1 ); tas->tab[i].titre[TAILLE_TITRE - 1] = '\0';
-    strncpy( tas->tab[i].description, description, TAILLE_DESCRIPTION - 1 ); tas->tab[i].description[TAILLE_DESCRIPTION - 1] = '\0';
-    tas -> tab[i].status = status;
-    tas ->tab[i].ordreArrivee = tas -> prochaineOrdre;
-    tas -> prochaineOrdre++;
-    tas -> tab[i].dateCreation  = time(NULL);
-    tas -> tab[i].dateLimite = dateLimite;
-    tas -> taille++;
-    entasserHaut(tas , i );
+    int i = tas->taille;
+    tas->tab[i].id = id;
+    tas->tab[i].priorite = priorite;
+    strncpy(tas->tab[i].titre, titre, TAILLE_TITRE - 1); tas->tab[i].titre[TAILLE_TITRE - 1] = '\0';
+    strncpy(tas->tab[i].description, description, TAILLE_DESCRIPTION - 1); tas->tab[i].description[TAILLE_DESCRIPTION - 1] = '\0';
+    tas->tab[i].status = status;
+    tas->tab[i].ordreArrivee = tas->prochaineOrdre;
+    tas->prochaineOrdre++;
+    tas->tab[i].dateCreation = dateCreation;
+    tas->tab[i].dateLimite = dateLimite;
+    tas->taille++;
+    entasserHaut(tas, i);
     return 1;
 }
 
